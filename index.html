@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Expense Tracker</title>
+  
+  <!-- Link to the external CSS stylesheet for styling the page -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Google Font: Plus Jakarta Sans for clean, modern readability -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Main Application Container -->
+  <div class="container">
+    
+    <!-- Application Heading Section -->
+    <header class="app-header">
+      <h1>Student Expense Tracker</h1>
+      <p class="subtitle">Track your daily campus spending and budget with ease</p>
+    </header>
+
+    <!-- Total Amount Spent Section -->
+    <section class="total-card">
+      <span class="total-label">Total Amount Spent</span>
+      <div class="total-display">
+        <span class="currency-symbol">₹</span>
+        <span id="total-amount" class="total-value">0.00</span>
+      </div>
+      <p class="total-note">Calculated automatically from your expenses below</p>
+    </section>
+
+    <!-- Form for Adding New Expenses -->
+    <section class="form-card">
+      <h2>Add New Expense</h2>
+      
+      <form id="expense-form" novalidate>
+        <!-- Error Message Container (shown when validation fails) -->
+        <div id="error-message" class="error-banner" style="display: none;"></div>
+        
+        <!-- Input 1: Expense Name / Description -->
+        <div class="form-group">
+          <label for="expense-name">Expense Name</label>
+          <input 
+            type="text" 
+            id="expense-name" 
+            name="expenseName" 
+            placeholder="e.g. Canteen Lunch, Bus Pass, Notebook" 
+            required
+            autocomplete="off"
+          >
+        </div>
+
+        <!-- Input 2: Amount in Rupees (₹) -->
+        <div class="form-group">
+          <label for="expense-amount">Amount in Rupees (₹)</label>
+          <input 
+            type="number" 
+            id="expense-amount" 
+            name="expenseAmount" 
+            placeholder="e.g. 150" 
+            min="0.01" 
+            step="0.01" 
+            required
+          >
+        </div>
+
+        <!-- Input 3: Expense Category Dropdown (Food, Travel, Books, Fun, Other) -->
+        <div class="form-group">
+          <label for="expense-category">Category</label>
+          <select id="expense-category" name="expenseCategory" required>
+            <option value="" disabled selected>Select a category</option>
+            <option value="Food">Food</option>
+            <option value="Travel">Travel</option>
+            <option value="Books">Books</option>
+            <option value="Fun">Fun</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <!-- Input 4: Date of Expense -->
+        <div class="form-group">
+          <label for="expense-date">Date</label>
+          <input 
+            type="date" 
+            id="expense-date" 
+            name="expenseDate" 
+            required
+          >
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" id="add-btn" class="btn-primary">Add Expense</button>
+      </form>
+    </section>
+
+    <!-- Expenses History List Section -->
+    <section class="list-card">
+      <div class="list-header">
+        <h2>Expense History</h2>
+        <span id="expense-count" class="badge-count">0 items</span>
+      </div>
+
+      <!-- Empty list where expenses will appear dynamically via JavaScript -->
+      <ul id="expense-list" class="expense-list">
+        <!-- JavaScript will insert <li> items here as expenses are added -->
+      </ul>
+
+      <!-- Placeholder message when no expenses are present -->
+      <div id="empty-state" class="empty-state">
+        <p>No expenses added yet.</p>
+        <span>Fill out the form above to record your first expense!</span>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Link to the external JavaScript file that handles form logic and data -->
+  <script src="script.js"></script>
+</body>
+</html>
