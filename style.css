@@ -1,42 +1,143 @@
 /* ==========================================================================
    Student Expense Tracker - Stylesheet (style.css)
-   A clean, beginner-friendly CSS file using modern CSS variables & flexbox
+   Attractive, Modern Dual-Theme System (Light & Nocturnal Dark)
    ========================================================================== */
 
-/* Design Tokens / CSS Variables for Easy Customization */
+/* --------------------------------------------------------------------------
+   1. Theme Color Variables (Light Theme - Default)
+   -------------------------------------------------------------------------- */
 :root {
-  --bg-page: #f8fafc;
+  /* Canvas & Structural Surfaces */
+  --bg-page: #f6f8fc;
   --bg-card: #ffffff;
-  --border-subtle: #e2e8f0;
-  --border-focus: #2563eb;
+  --bg-input: #ffffff;
+  --bg-item: #f8fafc;
+  --bg-item-hover: #f1f5f9;
   
+  /* Borders & Dividers */
+  --border-subtle: #e2e8f0;
+  --border-input: #cbd5e1;
+  --border-focus: #4f46e5;
+
+  /* Typography */
   --text-main: #0f172a;
   --text-muted: #64748b;
   --text-light: #94a3b8;
+
+  /* Brand Accents */
+  --primary-color: #4f46e5;        /* Vibrant Royal Indigo */
+  --primary-hover: #4338ca;
+  --primary-glow: rgba(79, 70, 229, 0.15);
+  --currency-color: #4f46e5;
   
-  --primary-color: #2563eb;
-  --primary-hover: #1d4ed8;
+  /* Danger / Deletion */
   --danger-color: #ef4444;
   --danger-hover: #dc2626;
+  --danger-bg: #fee2e2;
+  --danger-border: #fecaca;
+  --danger-text: #991b1b;
 
-  /* Category Accent Colors */
-  --cat-food: #0284c7;
-  --cat-travel: #10b981;
-  --cat-books: #8b5cf6;
-  --cat-fun: #f59e0b;
-  --cat-other: #64748b;
+  /* Category Badges (Light) */
+  --badge-food-bg: #fff7ed;
+  --badge-food-text: #ea580c;
+  --badge-food-border: #ffedd5;
 
-  --radius-sm: 6px;
-  --radius-md: 10px;
+  --badge-travel-bg: #f0fdfa;
+  --badge-travel-text: #0d9488;
+  --badge-travel-border: #ccfbf1;
+
+  --badge-books-bg: #f5f3ff;
+  --badge-books-text: #7c3aed;
+  --badge-books-border: #ede9fe;
+
+  --badge-fun-bg: #fff1f2;
+  --badge-fun-text: #e11d48;
+  --badge-fun-border: #ffe4e6;
+
+  --badge-other-bg: #f1f5f9;
+  --badge-other-text: #475569;
+  --badge-other-border: #e2e8f0;
+
+  /* Elevation Shadows */
+  --shadow-card: 0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+  --shadow-input: 0 1px 2px rgba(15, 23, 42, 0.05);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
   --radius-lg: 16px;
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --transition-speed: 0.2s;
 }
 
-/* CSS Reset & Base Defaults */
+/* --------------------------------------------------------------------------
+   2. Dark Theme Variables ([data-theme="dark"])
+   -------------------------------------------------------------------------- */
+[data-theme="dark"] {
+  /* Canvas & Structural Surfaces */
+  --bg-page: #0a0e17;              /* Deep Midnight Abyss */
+  --bg-card: #121826;              /* Obsidian Slate */
+  --bg-input: #0e1420;             /* Inset Dark Field */
+  --bg-item: #161e30;              /* Row Container */
+  --bg-item-hover: #1c263c;
+  
+  /* Borders & Dividers */
+  --border-subtle: #1f293d;
+  --border-input: #29354d;
+  --border-focus: #6366f1;
+
+  /* Typography (Optical Compensation) */
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-light: #64748b;
+
+  /* Brand Accents */
+  --primary-color: #6366f1;        /* Electric Violet Indigo */
+  --primary-hover: #4f46e5;
+  --primary-glow: rgba(99, 102, 241, 0.25);
+  --currency-color: #818cf8;
+
+  /* Danger / Deletion */
+  --danger-color: #f87171;
+  --danger-hover: #ef4444;
+  --danger-bg: rgba(239, 68, 68, 0.15);
+  --danger-border: rgba(239, 68, 68, 0.3);
+  --danger-text: #fca5a5;
+
+  /* Category Badges (Dark Luminous) */
+  --badge-food-bg: rgba(251, 146, 60, 0.14);
+  --badge-food-text: #fb923c;
+  --badge-food-border: rgba(251, 146, 60, 0.25);
+
+  --badge-travel-bg: rgba(45, 212, 191, 0.14);
+  --badge-travel-text: #2dd4bf;
+  --badge-travel-border: rgba(45, 212, 191, 0.25);
+
+  --badge-books-bg: rgba(167, 139, 250, 0.14);
+  --badge-books-text: #a78bfa;
+  --badge-books-border: rgba(167, 139, 250, 0.25);
+
+  --badge-fun-bg: rgba(251, 113, 133, 0.14);
+  --badge-fun-text: #fb7185;
+  --badge-fun-border: rgba(251, 113, 133, 0.25);
+
+  --badge-other-bg: rgba(148, 163, 184, 0.14);
+  --badge-other-text: #cbd5e1;
+  --badge-other-border: rgba(148, 163, 184, 0.25);
+
+  /* Dark Elevation Shadows */
+  --shadow-card: 0 4px 24px -2px rgba(0, 0, 0, 0.5), 0 2px 8px -1px rgba(0, 0, 0, 0.3);
+  --shadow-input: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* --------------------------------------------------------------------------
+   3. CSS Reset & Typography Defaults
+   -------------------------------------------------------------------------- */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  transition: background-color var(--transition-speed) ease, 
+              border-color var(--transition-speed) ease, 
+              color var(--transition-speed) ease;
 }
 
 body {
@@ -45,6 +146,7 @@ body {
   color: var(--text-main);
   line-height: 1.5;
   padding: 32px 16px 64px;
+  min-height: 100vh;
 }
 
 /* Main Container centered with max-width */
@@ -56,41 +158,94 @@ body {
   gap: 20px;
 }
 
-/* Header */
+/* --------------------------------------------------------------------------
+   4. Header & Theme Switcher
+   -------------------------------------------------------------------------- */
 .app-header {
-  text-align: center;
-  padding: 8px 0 12px;
+  padding: 4px 0 8px;
 }
 
-.app-header h1 {
-  font-size: 26px;
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.header-titles h1 {
+  font-size: 24px;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   color: var(--text-main);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .subtitle {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--text-muted);
 }
 
-/* Total Spent Card */
+/* Theme Toggle Button */
+.theme-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border-subtle);
+  border-radius: 9999px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: var(--shadow-input);
+  white-space: nowrap;
+  shrink-0: 0;
+  transition: all 0.15s ease;
+}
+
+.theme-toggle-btn:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-1px);
+}
+
+.theme-icon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+/* --------------------------------------------------------------------------
+   5. Total Amount Card (Hero Metric)
+   -------------------------------------------------------------------------- */
 .total-card {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: 24px;
+  padding: 26px 24px;
   text-align: center;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle top ambient glow strip */
+.total-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #4f46e5, #06b6d4, #10b981);
 }
 
 .total-label {
   display: block;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   color: var(--text-muted);
   margin-bottom: 8px;
 }
@@ -100,21 +255,21 @@ body {
   align-items: baseline;
   justify-content: center;
   gap: 4px;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .currency-symbol {
-  font-size: 28px;
+  font-size: 30px;
   font-weight: 700;
-  color: var(--primary-color);
+  color: var(--currency-color);
 }
 
 .total-value {
-  font-size: 38px;
-  font-weight: 700;
+  font-size: 42px;
+  font-weight: 800;
   color: var(--text-main);
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
 }
 
 .total-note {
@@ -122,29 +277,32 @@ body {
   color: var(--text-muted);
 }
 
-/* Card Containers (Form and List) */
+/* --------------------------------------------------------------------------
+   6. Form & History Cards
+   -------------------------------------------------------------------------- */
 .form-card,
 .list-card {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
   padding: 24px;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-card);
 }
 
 .form-card h2,
 .list-card h2 {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
-  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+  margin-bottom: 18px;
   color: var(--text-main);
 }
 
-/* Error Banner */
+/* Validation Error Banner */
 .error-banner {
-  background-color: #fee2e2;
-  border: 1px solid #fecaca;
-  color: #991b1b;
+  background-color: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  color: var(--danger-text);
   padding: 10px 14px;
   border-radius: var(--radius-sm);
   font-size: 13px;
@@ -152,7 +310,7 @@ body {
   margin-bottom: 16px;
 }
 
-/* Form Styles */
+/* Form Groups & Inputs */
 .form-group {
   margin-bottom: 16px;
 }
@@ -161,7 +319,7 @@ label {
   display: block;
   font-size: 13px;
   font-weight: 600;
-  color: #334155;
+  color: var(--text-main);
   margin-bottom: 6px;
 }
 
@@ -170,24 +328,29 @@ input[type="number"],
 input[type="date"],
 select {
   width: 100%;
-  padding: 10px 14px;
+  padding: 11px 14px;
   font-size: 14px;
   font-family: inherit;
   color: var(--text-main);
-  background-color: #ffffff;
-  border: 1px solid var(--border-subtle);
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-input);
   border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-input);
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input::placeholder {
+  color: var(--text-light);
 }
 
 input:focus,
 select:focus {
   outline: none;
   border-color: var(--border-focus);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+  box-shadow: 0 0 0 3px var(--primary-glow);
 }
 
-/* Primary Submit Button */
+/* Primary Action Button */
 .btn-primary {
   width: 100%;
   padding: 12px 18px;
@@ -197,19 +360,24 @@ select:focus {
   border-radius: var(--radius-sm);
   font-size: 15px;
   font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
-  transition: background-color 0.15s ease, transform 0.05s ease;
+  box-shadow: 0 2px 8px var(--primary-glow);
+  transition: background-color 0.15s ease, transform 0.05s ease, box-shadow 0.15s ease;
 }
 
 .btn-primary:hover {
   background-color: var(--primary-hover);
+  box-shadow: 0 4px 12px var(--primary-glow);
 }
 
 .btn-primary:active {
   transform: translateY(1px);
 }
 
-/* List Header */
+/* --------------------------------------------------------------------------
+   7. List Header & Expense Items
+   -------------------------------------------------------------------------- */
 .list-header {
   display: flex;
   align-items: center;
@@ -225,12 +393,14 @@ select:focus {
   font-size: 12px;
   font-weight: 600;
   color: var(--text-muted);
-  background: #f1f5f9;
-  padding: 3px 8px;
+  background: var(--bg-item);
+  border: 1px solid var(--border-subtle);
+  padding: 3px 10px;
   border-radius: 9999px;
+  font-variant-numeric: tabular-nums;
 }
 
-/* Expense List (ul) & Items (li) */
+/* Expense List & Rows */
 .expense-list {
   list-style: none;
   display: flex;
@@ -242,27 +412,31 @@ select:focus {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 14px;
-  background-color: #f8fafc;
+  padding: 12px 16px;
+  background-color: var(--bg-item);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  transition: background-color 0.15s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 
 .expense-item:hover {
-  background-color: #f1f5f9;
+  background-color: var(--bg-item-hover);
 }
 
 .expense-details {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
+  min-width: 0;
 }
 
 .expense-title-text {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .expense-meta-info {
@@ -277,51 +451,80 @@ select:focus {
 .category-badge {
   font-weight: 600;
   font-size: 11px;
-  padding: 2px 6px;
+  padding: 2px 7px;
   border-radius: 4px;
+  border: 1px solid transparent;
+  display: inline-block;
+  letter-spacing: 0.02em;
 }
 
-.cat-Food { background: #e0f2fe; color: var(--cat-food); }
-.cat-Travel { background: #d1fae5; color: var(--cat-travel); }
-.cat-Books { background: #ede9fe; color: var(--cat-books); }
-.cat-Fun { background: #fef3c7; color: #b45309; }
-.cat-Other { background: #f1f5f9; color: var(--cat-other); }
+.cat-Food {
+  background-color: var(--badge-food-bg);
+  color: var(--badge-food-text);
+  border-color: var(--badge-food-border);
+}
+
+.cat-Travel {
+  background-color: var(--badge-travel-bg);
+  color: var(--badge-travel-text);
+  border-color: var(--badge-travel-border);
+}
+
+.cat-Books {
+  background-color: var(--badge-books-bg);
+  color: var(--badge-books-text);
+  border-color: var(--badge-books-border);
+}
+
+.cat-Fun {
+  background-color: var(--badge-fun-bg);
+  color: var(--badge-fun-text);
+  border-color: var(--badge-fun-border);
+}
+
+.cat-Other {
+  background-color: var(--badge-other-bg);
+  color: var(--badge-other-text);
+  border-color: var(--badge-other-border);
+}
 
 /* Amount & Delete Button Group */
 .expense-actions {
   display: flex;
   align-items: center;
   gap: 12px;
+  shrink-0: 0;
 }
 
 .expense-item-amount {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--text-main);
   font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
 }
 
 .delete-btn {
   background: transparent;
   border: none;
   color: var(--text-light);
-  font-size: 18px;
+  font-size: 16px;
   cursor: pointer;
   line-height: 1;
-  padding: 4px 6px;
-  border-radius: 4px;
+  padding: 6px 8px;
+  border-radius: 6px;
   transition: color 0.15s ease, background-color 0.15s ease;
 }
 
 .delete-btn:hover {
   color: var(--danger-color);
-  background-color: #fee2e2;
+  background-color: var(--danger-bg);
 }
 
 /* Empty State Message */
 .empty-state {
   text-align: center;
-  padding: 32px 16px;
+  padding: 36px 16px;
   color: var(--text-muted);
 }
 

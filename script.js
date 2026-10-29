@@ -1,14 +1,11 @@
 // =============================================================================
 // Student Expense Tracker - script.js
-// A beginner-friendly JavaScript file explaining each step in plain English
+// Features: Form Submit, Validation, Delete, Running Total, localStorage, & Dark/Light Theme
 // =============================================================================
 
 // -----------------------------------------------------------------------------
 // STEP 1: Select HTML Elements from the DOM
 // -----------------------------------------------------------------------------
-// We use document.getElementById to grab references to our HTML elements
-// so JavaScript can read their values and update them on the screen.
-
 const expenseForm = document.getElementById("expense-form");
 const nameInput = document.getElementById("expense-name");
 const amountInput = document.getElementById("expense-amount");
@@ -21,101 +18,141 @@ const expenseList = document.getElementById("expense-list");
 const emptyState = document.getElementById("empty-state");
 const expenseCount = document.getElementById("expense-count");
 
+// Theme Toggle Elements
+const themeToggleBtn = document.getElementById("theme-toggle");
+const themeIcon = document.getElementById("theme-icon");
+const themeLabel = document.getElementById("theme-label");
+
 // -----------------------------------------------------------------------------
-// STEP 2: Application State (Data Storage)
+// STEP 2: Theme Management (Dark Mode / Light Mode with localStorage)
 // -----------------------------------------------------------------------------
-// We store all expense objects in an array.
-// We also use localStorage so expenses stay saved even if the browser is refreshed.
+// Initialize theme based on user's saved preference or OS system preference
+function initTheme() {
+  const savedTheme = localStorage.getItem("student_theme");
+  
+  if (savedTheme) {
+    applyTheme(savedTheme);
+  } else {
+    // Detect system preference (defaults to dark if user's OS is in dark mode)
+    const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    applyTheme(prefersDark ? "dark" : "light");
+  }
+}
+
+// Apply the given theme ('light' or 'dark') to the document and button
+function applyTheme(theme) {
+  if (theme === "dark") {
+    document.documentElement.setAttribute("data-theme", "dark");
+    if (themeIcon) themeIcon.textContent = "☀️";
+    if (themeLabel) themeLabel.textContent = "Light Mode";
+  } else {
+    document.documentElement.removeAttribute("data-theme");
+    if (themeIcon) themeIcon.textContent = "🌙";
+    if (themeLabel) themeLabel.textContent = "Dark Mode";
+  }
+}
+
+// Toggle between light and dark when the button is clicked
+if (themeToggleBtn) {
+  themeToggleBtn.addEventListener("click", function () {
+    const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+    const newTheme = isDark ? "light" : "dark";
+    
+    applyTheme(newTheme);
+    localStorage.setItem("student_theme", newTheme);
+  });
+}
+
+// Run theme setup immediately
+initTheme();
+
+// -----------------------------------------------------------------------------
+// STEP 3: Load Data from localStorage (State Initialization)
+// -----------------------------------------------------------------------------
 let expenses = JSON.parse(localStorage.getItem("student_expenses")) || [];
 
-// Set today's date as the default value in the date input
+// Set today's date as default in the date input
 const today = new Date().toISOString().split("T")[0];
 dateInput.value = today;
 
-// Render any existing saved expenses on initial page load
+// Render all saved expenses immediately when the page loads
 renderAllExpenses();
 
 // -----------------------------------------------------------------------------
-// STEP 3: Listen for the Form Submit Event
+// STEP 4: Handle Form Submission (Add New Expense)
 // -----------------------------------------------------------------------------
 expenseForm.addEventListener("submit", function (event) {
-  // Prevent the browser from refreshing the page when the form is submitted
+  // Prevent page refresh on submit
   event.preventDefault();
 
-  // Read and clean the user inputs
+  // Extract input values
   const name = nameInput.value.trim();
   const amount = parseFloat(amountInput.value);
   const category = categorySelect.value;
   const date = dateInput.value;
 
-  // ---------------------------------------------------------------------------
-  // REQUIREMENT 2: Validate the Inputs (Check for empty fields & positive amount)
-  // ---------------------------------------------------------------------------
-  // Check if expense name is empty
+  // Validation: Check for empty name
   if (!name) {
     showError("Please enter an expense name.");
     nameInput.focus();
     return;
   }
 
-  // Check if amount is empty, not a number, or less than or equal to zero
+  // Validation: Check for valid positive amount
   if (isNaN(amount) || amount <= 0) {
     showError("Please enter a valid positive amount in rupees (greater than ₹0).");
     amountInput.focus();
     return;
   }
 
-  // Check if category is selected
+  // Validation: Check category selection
   if (!category) {
     showError("Please select a category (Food, Travel, Books, Fun, or Other).");
     categorySelect.focus();
     return;
   }
 
-  // Check if date is selected
+  // Validation: Check date
   if (!date) {
     showError("Please pick a valid date.");
     dateInput.focus();
     return;
   }
 
-  // If all checks pass, hide any existing error message
+  // Hide any previous errors
   hideError();
 
-  // ---------------------------------------------------------------------------
-  // REQUIREMENT 1: Create a new expense object and add it to our array
-  // ---------------------------------------------------------------------------
+  // Create new expense object
   const newExpense = {
-    id: Date.now().toString(), // Generates a unique ID using the current timestamp
+    id: Date.now().toString(), // Unique ID using timestamp
     name: name,
     amount: amount,
     category: category,
     date: date,
   };
 
-  // Add the new expense to the beginning of our array
+  // Add the new item to the beginning of the array
   expenses.unshift(newExpense);
 
-  // Save to browser localStorage
+  // Save the updated array to localStorage
   saveExpensesToStorage();
 
-  // Re-render the list and update the total amount
+  // Update UI list and total
   renderAllExpenses();
 
-  // Reset the form inputs for the next entry
+  // Reset form inputs for next entry
   expenseForm.reset();
-  dateInput.value = today; // restore today's date
+  dateInput.value = today;
   nameInput.focus();
 });
 
 // -----------------------------------------------------------------------------
-// STEP 4: Render All Expenses into the <ul> List
+// STEP 5: Render Expenses to the Screen
 // -----------------------------------------------------------------------------
 function renderAllExpenses() {
-  // Clear the existing HTML inside the <ul>
   expenseList.innerHTML = "";
 
-  // Check if there are no expenses
+  // Show empty state placeholder if no expenses exist
   if (expenses.length === 0) {
     emptyState.style.display = "block";
     expenseCount.textContent = "0 items";
@@ -123,20 +160,17 @@ function renderAllExpenses() {
     return;
   }
 
-  // Hide the empty state message when expenses exist
+  // Hide empty state and show count
   emptyState.style.display = "none";
   expenseCount.textContent = `${expenses.length} ${expenses.length === 1 ? "item" : "items"}`;
 
-  // Loop through each expense in our array and build an <li> element
+  // Build <li> for each expense item
   expenses.forEach(function (expense) {
     const li = document.createElement("li");
     li.className = "expense-item";
 
-    // Format the date to a readable string (e.g. "Oct 29, 2026")
     const formattedDate = formatDate(expense.date);
 
-    // Build the inner HTML for the expense item
-    // Note: includes REQUIREMENT 3 (Delete button with data-id)
     li.innerHTML = `
       <div class="expense-details">
         <span class="expense-title-text">${escapeHTML(expense.name)}</span>
@@ -158,78 +192,67 @@ function renderAllExpenses() {
       </div>
     `;
 
-    // Append the newly created <li> into the <ul>
     expenseList.appendChild(li);
   });
 
-  // ---------------------------------------------------------------------------
-  // REQUIREMENT 4: Update the total amount spent
-  // ---------------------------------------------------------------------------
+  // Always update running total
   updateTotalAmount();
 }
 
 // -----------------------------------------------------------------------------
-// STEP 5: Event Delegation for the Delete Button (REQUIREMENT 3 & 4)
+// STEP 6: Event Delegation for Deleting an Expense
 // -----------------------------------------------------------------------------
-// Instead of attaching a click listener to every single button, we attach one
-// listener to the parent <ul> container. This is a best practice called Event Delegation.
 expenseList.addEventListener("click", function (event) {
-  // Check if the clicked element has the "delete-btn" class
   if (event.target.classList.contains("delete-btn")) {
     const idToDelete = event.target.getAttribute("data-id");
     deleteExpense(idToDelete);
   }
 });
 
-// Function to delete an expense by its unique ID
 function deleteExpense(id) {
-  // Filter out the expense with the matching ID
+  // Remove expense from the array
   expenses = expenses.filter(function (item) {
     return item.id !== id;
   });
 
-  // Save the updated list to localStorage
+  // Save changes to localStorage
   saveExpensesToStorage();
 
-  // Re-render the list and update the total amount
+  // Refresh UI
   renderAllExpenses();
 }
 
 // -----------------------------------------------------------------------------
-// STEP 6: Update the Total Amount Spent (REQUIREMENT 4)
+// STEP 7: Calculate and Update Total Spent
 // -----------------------------------------------------------------------------
 function updateTotalAmount() {
-  // Use array reduce method to calculate the sum of all expense amounts
-  const total = expenses.reduce(function (accumulator, currentExpense) {
-    return accumulator + currentExpense.amount;
+  const total = expenses.reduce(function (sum, item) {
+    return sum + item.amount;
   }, 0);
 
-  // Update the HTML text with two decimal places (e.g. ₹150.00)
   totalAmountDisplay.textContent = total.toFixed(2);
 }
 
 // -----------------------------------------------------------------------------
-// STEP 7: Helper Functions (Error messages, Date formatting, Security)
+// STEP 8: Save to Browser localStorage
 // -----------------------------------------------------------------------------
+function saveExpensesToStorage() {
+  localStorage.setItem("student_expenses", JSON.stringify(expenses));
+}
 
-// Show an error message banner
+// -----------------------------------------------------------------------------
+// STEP 9: Helper Functions (Errors, Formatting, Security)
+// -----------------------------------------------------------------------------
 function showError(message) {
   errorMessage.textContent = message;
   errorMessage.style.display = "block";
 }
 
-// Hide the error message banner
 function hideError() {
   errorMessage.textContent = "";
   errorMessage.style.display = "none";
 }
 
-// Save the current expenses array to browser localStorage
-function saveExpensesToStorage() {
-  localStorage.setItem("student_expenses", JSON.stringify(expenses));
-}
-
-// Format YYYY-MM-DD string into a clean readable date
 function formatDate(dateString) {
   if (!dateString) return "";
   const parts = dateString.split("-");
@@ -239,24 +262,13 @@ function formatDate(dateString) {
   const month = parseInt(parts[1], 10) - 1;
   const day = parseInt(parts[2], 10);
 
-  const monthNames = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-  ];
-
-  return `${monthNames[month]} ${day}, ${year}`;
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  return `${months[month]} ${day}, ${year}`;
 }
 
-// Sanitize user inputs to prevent Cross-Site Scripting (XSS)
 function escapeHTML(str) {
   return str.replace(/[&<>'"]/g, function (tag) {
-    const lookup = {
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      "'": "&#39;",
-      '"': "&quot;",
-    };
+    const lookup = { "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" };
     return lookup[tag] || tag;
   });
 }

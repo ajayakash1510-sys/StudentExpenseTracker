@@ -18,10 +18,18 @@
   <!-- Main Application Container -->
   <div class="container">
     
-    <!-- Application Heading Section -->
+    <!-- Application Heading Section with Theme Toggle -->
     <header class="app-header">
-      <h1>Student Expense Tracker</h1>
-      <p class="subtitle">Track your daily campus spending and budget with ease</p>
+      <div class="header-top">
+        <div class="header-titles">
+          <h1>Student Expense Tracker</h1>
+          <p class="subtitle">Track your daily campus spending and budget with ease</p>
+        </div>
+        <button type="button" id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle theme mode" title="Switch between Light and Dark mode">
+          <span id="theme-icon" class="theme-icon">🌙</span>
+          <span id="theme-label" class="theme-label">Dark Mode</span>
+        </button>
+      </div>
     </header>
 
     <!-- Total Amount Spent Section -->

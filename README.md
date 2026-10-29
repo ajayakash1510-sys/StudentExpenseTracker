@@ -13,6 +13,10 @@ Managing student budgets—between canteen meals, bus passes, photocopies, and c
 ## 🚀 Features
 
 - **Quick Expense Logging**: Add items with a title, amount in Rupees (₹), category, and date.
+- **Dark & Light Mode Switcher**:
+  - **Nocturnal Dark Mode**: Deep obsidian slate surface (`#121826`) on midnight abyss with luminous glowing category tags and high-contrast typography.
+  - **Crisp Light Mode**: Soft porcelain slate background (`#f6f8fc`) with vibrant royal indigo accents.
+  - Remembers your chosen theme in `localStorage` and automatically detects your operating system's dark/light preferences.
 - **Student-Specific Categories**:
   - 🍔 **Food**: Canteen meals, snacks, groceries, coffee
   - 🚌 **Travel**: Metro cards, bus passes, auto/cab rides
